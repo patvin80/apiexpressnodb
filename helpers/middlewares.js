@@ -1,4 +1,4 @@
-function mustBeInteger(req, res, next) {
+const mustBeInteger = (req, res, next) => {
     const id = req.params.id
 
     if (!Number.isInteger(parseInt(id))) {
@@ -8,7 +8,7 @@ function mustBeInteger(req, res, next) {
     }
 }
 
-function checkFieldsPost(req, res, next) {
+const checkFieldsPost = (req, res, next) => {
     const { title, content, tags } = req.body
 
     if (title && content && tags) {
@@ -18,7 +18,7 @@ function checkFieldsPost(req, res, next) {
     }
 }
 
-module.exports = {
+export {
     mustBeInteger,
     checkFieldsPost
 }

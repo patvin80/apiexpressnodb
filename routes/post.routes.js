@@ -1,11 +1,11 @@
-const express = require('express')
-const router = express.Router()
-const post = require('../models/post.model')
-const m = require('../helpers/middlewares')
+import { Router } from 'express'
+const router = Router()
+import { getPosts, getPost, insertPost, updatePost, deletePost } from '../models/post.model.js'
+import { mustBeInteger, checkFieldsPost } from '../helpers/middlewares.js'
 
 /* All posts */
 router.get('/', async (req, res) => {
-    await post.getPosts()
+    await getPosts()
     .then(posts => res.json(posts))
     .catch(err => {
         if (err.status) {
@@ -17,10 +17,10 @@ router.get('/', async (req, res) => {
 })
 
 /* A post by id */
-router.get('/:id', m.mustBeInteger, async (req, res) => {
+router.get('/:id', mustBeInteger, async (req, res) => {
     const id = req.params.id
 
-    await post.getPost(id)
+    await getPost(id)
     .then(post => res.json(post))
     .catch(err => {
         if (err.status) {
@@ -32,8 +32,8 @@ router.get('/:id', m.mustBeInteger, async (req, res) => {
 })
 
 /* Insert a new post */
-router.post('/', m.checkFieldsPost, async (req, res) => {
-    await post.insertPost(req.body)
+router.post('/', checkFieldsPost, async (req, res) => {
+    await insertPost(req.body)
     .then(post => res.status(201).json({
         message: `The post #${post.id} has been created`,
         content: post
@@ -42,10 +42,10 @@ router.post('/', m.checkFieldsPost, async (req, res) => {
 })
 
 /* Update a post */
-router.put('/:id', m.mustBeInteger, m.checkFieldsPost, async (req, res) => {
+router.put('/:id', mustBeInteger, checkFieldsPost, async (req, res) => {
     const id = req.params.id
 
-    await post.updatePost(id, req.body)
+    await updatePost(id, req.body)
     .then(post => res.json({
         message: `The post #${id} has been updated`,
         content: post
@@ -59,10 +59,10 @@ router.put('/:id', m.mustBeInteger, m.checkFieldsPost, async (req, res) => {
 })
 
 /* Delete a post */
-router.delete('/:id', m.mustBeInteger, async (req, res) => {
+router.delete('/:id', mustBeInteger, async (req, res) => {
     const id = req.params.id
 
-    await post.deletePost(id)
+    await deletePost(id)
     .then(post => res.json({
         message: `The post #${id} has been deleted`
     }))
@@ -74,4 +74,4 @@ router.delete('/:id', m.mustBeInteger, async (req, res) => {
     })
 })
 
-module.exports = router
+export { router }

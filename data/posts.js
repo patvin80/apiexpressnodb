@@ -1,4 +1,6 @@
-[
+
+const posts =
+  [
     {
         "id": 1,
         "title": "First post",
@@ -16,3 +18,6 @@
         "updatedAt": "Mon Aug 27 2018 16:17:18 GMT+0200 (CEST)"
     }
 ]
+
+export default posts
+

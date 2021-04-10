@@ -1,4 +1,4 @@
-const fs = require('fs')
+import { writeFileSync } from 'fs'
 
 const getNewId = (array) => {
     if (array.length > 0) {
@@ -8,30 +8,30 @@ const getNewId = (array) => {
     }
 }
 
-const newDate = () => new Date().toString()
+const newDate = () => {
+    return new Date().toString()
+}
 
-function mustBeInArray(array, id) {
-    return new Promise((resolve, reject) => {
+const mustBeInArray = async (array, id) => {
         const row = array.find(r => r.id == id)
         if (!row) {
-            reject({
+            throw ({
                 message: 'ID is not good',
                 status: 404
             })
         }
-        resolve(row)
-    })
+        return(row)
 }
 
-function writeJSONFile(filename, content) {
-    fs.writeFileSync(filename, JSON.stringify(content), 'utf8', (err) => {
+const writeJSONFile = (filename, content) => {
+    writeFileSync(filename, JSON.stringify(content), 'utf8', (err) => {
         if (err) {
             console.log(err)
         }
     })
 }
 
-module.exports = {
+export {
     getNewId,
     newDate,
     mustBeInArray,
