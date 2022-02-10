@@ -31,9 +31,18 @@ const writeJSONFile = (filename, content) => {
     })
 }
 
+const convertToInt = (value) => {
+    let result = null;
+    if (value) {
+      result = parseInt(value, 10);
+    }
+    return result;
+}
+
 export {
     getNewId,
     newDate,
     mustBeInArray,
-    writeJSONFile
+    writeJSONFile,
+    convertToInt
 }

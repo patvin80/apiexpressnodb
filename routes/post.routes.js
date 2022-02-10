@@ -1,10 +1,10 @@
 import { Router } from 'express'
-const router = Router()
+const postRouter = Router()
 import { getPosts, getPost, insertPost, updatePost, deletePost } from '../models/post.model.js'
 import { mustBeInteger, checkFieldsPost } from '../helpers/middlewares.js'
 
 /* All posts */
-router.get('/', async (req, res) => {
+postRouter.get('/', async (req, res) => {
     await getPosts()
     .then(posts => res.json(posts))
     .catch(err => {
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
 })
 
 /* A post by id */
-router.get('/:id', mustBeInteger, async (req, res) => {
+postRouter.get('/:id', mustBeInteger, async (req, res) => {
     const id = req.params.id
 
     await getPost(id)
@@ -32,7 +32,7 @@ router.get('/:id', mustBeInteger, async (req, res) => {
 })
 
 /* Insert a new post */
-router.post('/', checkFieldsPost, async (req, res) => {
+postRouter.post('/', checkFieldsPost, async (req, res) => {
     await insertPost(req.body)
     .then(post => res.status(201).json({
         message: `The post #${post.id} has been created`,
@@ -42,7 +42,7 @@ router.post('/', checkFieldsPost, async (req, res) => {
 })
 
 /* Update a post */
-router.put('/:id', mustBeInteger, checkFieldsPost, async (req, res) => {
+postRouter.put('/:id', mustBeInteger, checkFieldsPost, async (req, res) => {
     const id = req.params.id
 
     await updatePost(id, req.body)
@@ -59,7 +59,7 @@ router.put('/:id', mustBeInteger, checkFieldsPost, async (req, res) => {
 })
 
 /* Delete a post */
-router.delete('/:id', mustBeInteger, async (req, res) => {
+postRouter.delete('/:id', mustBeInteger, async (req, res) => {
     const id = req.params.id
 
     await deletePost(id)
@@ -74,4 +74,4 @@ router.delete('/:id', mustBeInteger, async (req, res) => {
     })
 })
 
-export { router }
+export { postRouter }

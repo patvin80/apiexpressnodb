@@ -16,3 +16,5 @@ app.get('/', (req, res) => {
 })
 // Starting server
 app.listen(port)
+
+export { app }; // for testing
